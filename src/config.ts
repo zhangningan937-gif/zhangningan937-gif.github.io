@@ -45,11 +45,6 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		LinkPreset.About,
 		{
-			name: "学习台",
-			url: "https://zhangningan937-gif.github.io/myself/", // Internal links should not include the base path, as it is automatically added
-			external: true, // Show an external link icon and will open in a new tab
-		},
-		{
 			name: "GitHub",
 			url: "https://github.com/zhangningan937-gif",
 			external: true,
@@ -60,7 +55,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "宁安",
-	bio: "学生。学习、折腾、日常，都先写在这里。",
+	bio: "学生，写笔记。",
 	links: [
 		{
 			name: "GitHub",
