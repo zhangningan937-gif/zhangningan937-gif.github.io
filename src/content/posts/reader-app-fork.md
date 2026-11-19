@@ -1,10 +1,8 @@
 ---
 title: fork MoRealm 阅读器：三条记录
 published: 2026-11-15
-description: "v1.5 缺 epub-lib、作者漏交断行类、改动清单。"
-tags: ["Android", "阅读器"]
-category: 折腾
-draft: false
+description: v1.5 缺 epub-lib、作者漏交断行类、改动清单。
+tags: [Android, 阅读器]
 ---
 
 ## 停在 v1.4

@@ -1,83 +1,202 @@
-import type {
-	ExpressiveCodeConfig,
-	LicenseConfig,
-	NavBarConfig,
-	ProfileConfig,
-	SiteConfig,
-} from "./types/config";
-import { LinkPreset } from "./types/config";
+import type { ThemeConfig } from '@/types'
 
-export const siteConfig: SiteConfig = {
-	title: "宁安",
-	subtitle: "把学过的东西，写成能看懂的样子",
-	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
-	themeColor: {
-		hue: 264, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
-		fixed: true, // Hide the theme color picker for visitors
-	},
-	banner: {
-		enable: false,
-		src: "assets/images/avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-		position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
-		credit: {
-			enable: false, // Display the credit text of the banner image
-			text: "", // Credit text to be displayed
-			url: "", // (Optional) URL link to the original artwork or artist's page
-		},
-	},
-	toc: {
-		enable: true, // Display the table of contents on the right side of the post
-		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
-	},
-	favicon: [
-		// Leave this array empty to use the default favicon
-		// {
-		//   src: '/favicon/icon.png',    // Path of the favicon, relative to the /public directory
-		//   theme: 'light',              // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
-		//   sizes: '32x32',              // (Optional) Size of the favicon, set only if you have favicons of different sizes
-		// }
-	],
-};
+export const themeConfig: ThemeConfig = {
+  // SITE INFORMATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START
+  site: {
+    // site title
+    title: '宁安',
+    // site subtitle
+    subtitle: '学生，写笔记。',
+    // site description
+    description: '宁安的博客：学习、折腾、随笔。',
+    // use i18n title/subtitle/description from src/i18n/ui.ts instead of static ones above
+    i18nTitle: false, // true | false
+    // author name
+    author: '宁安',
+    // site url
+    url: 'https://zhangningan937-gif.github.io',
+    // base path
+    // root directory for all pages and assets
+    base: '/', // e.g., '/blog', '/docs'
+    // favicon url
+    // recommended formats: svg, png or ico
+    favicon: '/icons/favicon.png', // or https://example.com/favicon.svg
+  },
+  // SITE INFORMATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
 
-export const navBarConfig: NavBarConfig = {
-	links: [
-		LinkPreset.Home,
-		LinkPreset.Archive,
-		LinkPreset.About,
-		{
-			name: "GitHub",
-			url: "https://github.com/zhangningan937-gif",
-			external: true,
-		},
-	],
-};
+  // COLOR SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START
+  color: {
+    // default theme mode
+    mode: 'light', // light | dark | auto
+    light: {
+      // primary color
+      // used for title, hover, etc
+      // oklch color picker: https://oklch.com/
+      primary: 'oklch(25% 0.005 298)',
+      // secondary color
+      // used for post text
+      secondary: 'oklch(40% 0.005 298)',
+      // background color
+      background: 'oklch(96% 0.005 298)',
+      // highlight color
+      // used for navbar, selected text, etc
+      highlight: 'oklch(0.93 0.195089 103.2532 / 0.5)', // rgba(255,235,0,0.5)
+    },
+    dark: {
+      // primary color
+      primary: 'oklch(92% 0.005 298)',
+      // secondary color
+      secondary: 'oklch(77% 0.005 298)',
+      // background color
+      background: 'oklch(22% 0.005 298)',
+      // highlight color
+      highlight: 'oklch(0.93 0.195089 103.2532 / 0.2)', // rgba(255,235,0,0.2)
+    },
+  },
+  // COLOR SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
 
-export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "宁安",
-	bio: "学生，写笔记。",
-	links: [
-		{
-			name: "GitHub",
-			icon: "fa6-brands:github",
-			url: "https://github.com/zhangningan937-gif",
-		},
-		{
-			name: "学习台",
-			icon: "fa6-solid:book-open",
-			url: "https://zhangningan937-gif.github.io/myself/",
-		},
-	],
-};
+  // GLOBAL SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START
+  global: {
+    // default language
+    locale: 'zh', // de | en | es | fr | ja | ko | pl | pt | ru | zh | zh-tw
+    // more languages
+    // not fill in the locale code above again, can be an empty array []
+    moreLocales: [], // ['de', 'en', 'es', 'fr', 'ja', 'ko', 'pl', 'pt', 'ru', 'zh', 'zh-tw']
+    // post font style
+    fontStyle: 'sans', // sans | serif
+    // post date format
+    dateFormat: 'YYYY-MM-DD', // YYYY-MM-DD | MM-DD-YYYY | DD-MM-YYYY | MMM D YYYY | D MMM YYYY
+    // enable table of contents
+    toc: true, // true | false
+    // enable katex math rendering
+    katex: true, // true | false
+    // reduce motion
+    reduceMotion: false, // true | false
+  },
+  // GLOBAL SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
 
-export const licenseConfig: LicenseConfig = {
-	enable: true,
-	name: "CC BY-NC-SA 4.0",
-	url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-};
+  // COMMENT SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START
+  comment: {
+    // enable comment system
+    enabled: false, // true | false
+    // giscus
+    // https://giscus.app/
+    giscus: {
+      repo: '',
+      repoId: '',
+      category: '',
+      categoryId: '',
+      mapping: 'pathname',
+      strict: '0',
+      reactionsEnabled: '1',
+      emitMetadata: '0',
+      inputPosition: 'bottom',
+    },
+    // twikoo
+    // https://twikoo.js.org/
+    twikoo: {
+      envId: '',
+      // version: frontend version can be changed in package.json
+    },
+    // waline
+    // https://waline.js.org/en/
+    waline: {
+      // server url
+      serverURL: 'https://retypeset-comment.radishzz.cc',
+      // emoji url
+      emoji: [
+        'https://unpkg.com/@waline/emojis@1.2.0/tw-emoji',
+        // 'https://unpkg.com/@waline/emojis@1.2.0/bmoji',
+        // more emojis: https://waline.js.org/en/guide/features/emoji.html
+      ],
+      // gif search
+      search: false, // true | false
+      // image uploader
+      imageUploader: false, // true | false
+    },
+  },
+  // COMMENT SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
 
-export const expressiveCodeConfig: ExpressiveCodeConfig = {
-	// Note: Some styles (such as background color) are being overridden, see the astro.config.mjs file.
-	// Please select a dark theme, as this blog theme currently only supports dark background color
-	theme: "github-dark",
-};
+  // SEO SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START
+  seo: {
+    // @twitter ID
+    twitterID: '',
+    // site verification
+    verification: {
+      // google search console
+      // https://search.google.com/search-console
+      google: '',
+      // bing webmaster tools
+      // https://www.bing.com/webmasters
+      bing: '',
+      // yandex webmaster
+      // https://webmaster.yandex.com
+      yandex: '',
+      // baidu search
+      // https://ziyuan.baidu.com
+      baidu: '',
+    },
+    // google analytics
+    // https://analytics.google.com
+    googleAnalyticsID: '',
+    // umami analytics
+    // https://cloud.umami.is
+    umamiAnalyticsID: '',
+    // folo verification
+    // https://folo.is/
+    folo: {
+      // feed ID
+      feedID: '',
+      // user ID
+      userID: '',
+    },
+    // apiflash access key
+    // generate website screenshots for open graph images
+    // get your access key at: https://apiflash.com/
+    apiflashKey: '',
+  },
+  // SEO SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
+
+  // FOOTER SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START
+  footer: {
+    // social links
+    links: [
+      {
+        name: 'RSS',
+        url: '/atom.xml', // or /rss.xml
+      },
+      {
+        name: 'GitHub',
+        url: 'https://github.com/zhangningan937-gif',
+      },
+      {
+        name: '学习台',
+        url: 'https://zhangningan937-gif.github.io/myself/',
+      },
+    ],
+    // year of website start
+    startYear: 2026,
+  },
+  // FOOTER SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
+
+  // PRELOAD SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START
+  preload: {
+    // image hosting url
+    // optimize remote images and generate low-quality placeholders
+    imageHostURL: '',
+    // custom google analytics js
+    // for users who proxy tracking scripts to a custom domain
+    // see https://gist.github.com/xiaopc/0602f06ca465d76bd9efd3dda9393738
+    customGoogleAnalyticsJS: '',
+    // custom umami analytics js
+    // for users who self-deploy umami or proxy tracking scripts to a custom domain
+    // see https://umami.is/docs/bypass-ad-blockers
+    customUmamiAnalyticsJS: '',
+  },
+  // PRELOAD SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END
+}
+
+export const base = themeConfig.site.base === '/' ? '' : themeConfig.site.base.replace(/\/$/, '')
+export const defaultLocale = themeConfig.global.locale
+export const moreLocales = themeConfig.global.moreLocales
+export const allLocales = [defaultLocale, ...moreLocales]

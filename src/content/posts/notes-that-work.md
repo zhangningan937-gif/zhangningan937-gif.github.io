@@ -1,10 +1,8 @@
 ---
 title: 笔记的三个固定位置
 published: 2026-11-16
-description: "每节只写三行：问题、关键一步、结论。"
-tags: ["学习方法"]
-category: 学习
-draft: false
+description: 每节只写三行：问题、关键一步、结论。
+tags: [学习方法]
 ---
 
 ## 每节只写三行

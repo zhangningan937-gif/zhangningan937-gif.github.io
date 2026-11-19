@@ -1,63 +1,89 @@
-# 宁安的博客
+# Retypeset
 
-基于 [Fuwari](https://github.com/saicaca/fuwari)（[Astro](https://astro.build/)）的个人博客：克莱因蓝 + 毛玻璃（glassmorphism）配色，极光渐变背景 + 漂浮微粒，托管在 GitHub Pages。
+![Cover Image](assets/images/v1/retypeset-en-desktop.webp)
+![Cover Image](assets/images/v1/retypeset-en-mobile.webp)
 
-- 线上地址：<https://zhangningan937-gif.github.io/>
-- 仓库：`zhangningan937-gif.github.io`（`main` 分支是源码，`gh-pages` 分支是构建产物）
+[简体中文](assets/docs/README.zh.md)｜[繁体中文](assets/docs/README.zh-tw.md)｜[日本語](assets/docs/README.ja.md)｜[Español](assets/docs/README.es.md)｜[Français](assets/docs/README.fr.md)｜[Русский](assets/docs/README.ru.md)
 
-## 平时怎么写文章
+Retypeset is a static blog theme based on the [Astro](https://astro.build/) framework. Inspired by [Typography](https://astro-theme-typography.vercel.app/), Retypeset establishes a new visual standard and reimagines the layout of all pages, creating a reading experience reminiscent of paper books, reviving the beauty of typography. Details in every sight, elegance in every space.
 
-1. 在 `src/content/posts/` 下新建一个 `.md` 文件（文件名就是网址，建议英文小写）：
+## Demo
 
-   ```markdown
-   ---
-   title: 文章标题
-   published: 2026-11-18
-   description: "摘要，会显示在列表卡片上。"
-   tags: ["标签1", "标签2"]
-   category: 学习
-   draft: false
-   ---
+- [Retypeset](https://retypeset.radishzz.cc/en/)
+- [Retipografía](https://retypeset.radishzz.cc/es/)
+- [Переверстка](https://retypeset.radishzz.cc/ru/)
+- [重新编排](https://retypeset.radishzz.cc/)
+- [重新編排](https://retypeset.radishzz.cc/zh-tw/)
+- [再組版](https://retypeset.radishzz.cc/ja/)
 
-   正文从这里开始，支持 Markdown、公式（$...$）、代码块、提示框（> [!NOTE]）。
+## Features
+
+- Built with Astro and UnoCSS
+- Support for SEO, Sitemap, OpenGraph, RSS, MDX, LaTeX, Mermaid, and TOC
+- i18n support
+- Light / Dark mode
+- Elegant view transitions
+- Rich theme customization
+- Optimized typography
+- Responsive design
+- Comment system
+
+## Performance
+
+<br>
+<p align="center">
+  <a href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fretypeset.radishzz.cc%2Fen%2F&form_factor=desktop">
+    <img width="710" alt="Retypeset Lighthouse Score" src="assets/images/retypeset-lighthouse-score.svg">
+  <a>
+</p>
+
+## Getting Started
+
+1. [Fork](https://github.com/radishzzz/astro-theme-retypeset/fork) this repository, or use this template to create a new repository.
+2. Run the following commands in your terminal:
+
+   ```bash
+   # Clone the repository
+   git clone <repository-url>
+
+   # Navigate to the project directory
+   cd <repository-name>
+
+   # Install pnpm globally (if not already installed)
+   npm install -g pnpm
+
+   # Install dependencies
+   pnpm install
+
+   # Start the development server
+   pnpm dev
    ```
 
-   `category` 目前用的是：**学习 / 折腾 / 随笔**。`draft: true` 的文章不会发布。
+3. Refer to the [Theme Guide](https://retypeset.radishzz.cc/en/posts/theme-guide/) to customize your blog and create new posts.
+4. Refer to the [Astro Deployment Guides](https://docs.astro.build/en/guides/deploy/) to deploy your blog to Netlify, Vercel, or other platforms.
 
-2. 本地预览：双击 `serve.bat`（先构建再用真实产物预览），打开 <http://localhost:4322/>。
-3. 发布：双击 `deploy.bat`（需要 `D:\study-buddy\gh-token.txt` 里有 GitHub 令牌）。
+&emsp;[![Deploy to Netlify](assets/images/deploy-netlify.svg)](https://app.netlify.com/start) [![Deploy to Vercel](assets/images/deploy-vercel.svg)](https://vercel.com/new)
 
-## 目录里有什么
+## Updates
 
-| 位置 | 作用 |
-|---|---|
-| `src/content/posts/` | 文章（Markdown） |
-| `src/content/spec/about.md` | 「关于」页面 |
-| `src/config.ts` | 站点名、副标题、导航栏、个人资料、主题色 |
-| `src/styles/variables.styl` | 全部颜色变量（克莱因蓝在这里改） |
-| `src/styles/main.css` | 组件样式 + 文章排版样式 |
-| `src/assets/images/` | 头像、横幅 |
-| `scripts/`、`.tools/` | 构建辅助脚本，与内容无关 |
+Retypeset releases [new features](https://github.com/radishzzz/astro-theme-retypeset/issues/18) from time to time. Simply run `pnpm update-theme` to update the theme. If you encounter merge conflicts, please refer to [this video](https://youtu.be/lz5OuKzvadQ?si=sH_ALNgqxrYqNVQT) for manual resolution.
 
-## 命令速查
+## Credits
 
-```bash
-pnpm build      # 构建到 dist/（发布前必跑）
-pnpm preview    # 预览构建结果
-pnpm dev        # 开发模式（改样式用，搜索等功能不完整）
-```
+- [Typography](https://github.com/moeyua/astro-theme-typography)
+- [Fuwari](https://github.com/saicaca/fuwari)
+- [Redefine](https://github.com/EvanNotFound/hexo-theme-redefine)
+- [AstroPaper](https://github.com/satnaing/astro-paper)
+- [heti](https://github.com/sivan/heti)
+- [EarlySummerSerif](https://github.com/GuiWonder/EarlySummerSerif)
 
-> 本机的 Node 是便携版（`D:\riftt\node-full\node-v24.21.0-win-x64`），pnpm 装在 `.tools/` 里，
-> 所以直接用 `serve.bat` / `deploy.bat` 最省事，不要全局装环境。
+## Star History
 
-## 改过 Fuwari 的哪些地方
-
-- 配色换成克莱因蓝（#002FA7）+ 毛玻璃：全站卡片半透明 + `backdrop-filter` 毛玻璃、html 上叠加缓慢流动的极光渐变（`page-aurora`）、纯 CSS 漂浮微粒（`AuroraParticles.astro`，亮色微尘 / 暗色萤火），主题色选择器已关闭
-- 横幅（banner）已停用，改为整页极光背景；头像 / favicon 是脚本生成的（`.tools/make-*.mjs`），想换图直接替换 `src/assets/images/avatar.png`
-- 标题类文字改用衬线（Noto Serif SC / 思源宋体栈），正文保持无衬线
-- `markdown.css` 合并进了 `main.css`：Tailwind 的 `@apply` 跨文件引用在 Windows 上构建会随机失败
-- 导航栏改为全圆角玻璃药丸、头像加了蓝色渐变描边、文章卡片悬停微放大
-
-## 许可
-
-Fuwari 采用 MIT 许可（见 `LICENSE`），保留原作者版权声明。文章内容如无特别说明，采用 CC BY-NC-SA 4.0。
+<p align="center">
+<a href="https://star-history.com/#radishzzz/astro-theme-retypeset&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=radishzzz/astro-theme-retypeset&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=radishzzz/astro-theme-retypeset&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=radishzzz/astro-theme-retypeset&type=Date" />
+  </picture>
+</p>

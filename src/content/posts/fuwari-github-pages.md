@@ -1,10 +1,8 @@
 ---
 title: Fuwari 在 GitHub Pages 上的四个坑
 published: 2026-11-17
-description: "pnpm 锁、base 路径、产物分仓、.nojekyll。"
-tags: ["Astro", "GitHub Pages"]
-category: 折腾
-draft: false
+description: pnpm 锁、base 路径、产物分仓、.nojekyll。
+tags: [Astro, GitHub Pages]
 ---
 
 ## 1. 只认 pnpm
