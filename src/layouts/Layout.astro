@@ -1,5 +1,10 @@
 ---
 import type { Language } from '@/i18n/config'
+import '@fontsource/eb-garamond/400.css'
+import '@fontsource/eb-garamond/400-italic.css'
+import '@fontsource/eb-garamond/500.css'
+import '@fontsource/cormorant-garamond/500.css'
+import '@fontsource/cormorant-garamond/600.css'
 import Button from '@/components/Button.astro'
 import Footer from '@/components/Footer.astro'
 import Header from '@/components/Header.astro'
@@ -13,6 +18,7 @@ import { themeConfig } from '@/config'
 import Head from '@/layouts/Head.astro'
 import { getPageInfo } from '@/utils/page'
 import '@/styles/comment.css'
+import '@/styles/custom.css'
 import '@/styles/extension.css'
 import '@/styles/font.css'
 import '@/styles/global.css'
@@ -44,6 +50,7 @@ const MarginBottom = isPost && themeConfig.comment.enabled
 >
   <Head {postTitle} {postDescription} {postSlug} />
   <body>
+  <div id="reading-progress" aria-hidden="true"></div>
     <div
       class="mx-auto max-w-205.848 min-h-vh w-full min-h-dvh"
       p="x-[min(7.25vw,3.731rem)] y-10"
@@ -62,5 +69,19 @@ const MarginBottom = isPost && themeConfig.comment.enabled
     <GithubCard />
     <MediaEmbed />
     <ImageZoom />
+    <script is:inline>
+      function updateReadingProgress() {
+        const bar = document.getElementById('reading-progress')
+        if (!bar) return
+        const isPost = location.pathname.includes('/posts/')
+        if (!isPost) { bar.style.width = '0%'; return }
+        const max = document.documentElement.scrollHeight - innerHeight
+        const pct = max > 0 ? Math.min(100, Math.max(0, (scrollY / max) * 100)) : 0
+        bar.style.width = pct + '%'
+      }
+      addEventListener('scroll', updateReadingProgress, { passive: true })
+      document.addEventListener('astro:page-load', updateReadingProgress)
+      updateReadingProgress()
+    </script>
   </body>
 </html>

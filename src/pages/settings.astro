@@ -1,0 +1,171 @@
+---
+// 设置页：GitHub 令牌 + 个签
+import siteData from '@/data/site.json'
+const initialSignature = siteData.signature ?? ''
+---
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex" />
+  <title>设置 · 宁安</title>
+  <link rel="icon" type="image/png" href="/icons/favicon.png" />
+  <style>
+    :root { --bg:#f5f4f2; --card:#fff; --ink:#222124; --muted:#77767a; --line:#e4e2df; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; font-size:15px; line-height:1.7; }
+    a { color: inherit; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 80px; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+    .brand { font-family:"Noto Serif SC","Songti SC",serif; font-size:22px; font-weight:600; letter-spacing:.04em; }
+    .topbar nav { display:flex; gap:16px; font-size:14px; color:var(--muted); }
+    .topbar nav a:hover { color:var(--ink); }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:22px; margin-bottom:18px; }
+    .card h2 { margin:0 0 6px; font-size:15px; font-weight:600; }
+    .card p.desc { margin:0 0 16px; font-size:13px; color:var(--muted); }
+    label.field { display:block; margin-bottom:12px; }
+    input[type=text], input[type=password] { width:100%; border:1px solid var(--line); border-radius:6px; background:#fff; padding:10px 12px; font:inherit; color:var(--ink); outline:none; }
+    input:focus { border-color:#b9b7b2; }
+    .actions { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:8px; flex-wrap:wrap; }
+    .status { font-size:13px; color:var(--muted); min-height:20px; flex:1 1 240px; }
+    .status.ok { color:#2f7a4d; } .status.err { color:#b23b3b; }
+    .btn { border:0; border-radius:6px; padding:9px 18px; font:inherit; cursor:pointer; background:#222124; color:#fff; }
+    .btn:hover { opacity:.85; }
+    .btn.small { padding:6px 12px; font-size:13px; }
+    .btn.ghost { background:transparent; color:var(--ink); border:1px solid var(--line); }
+    .foot { text-align:center; font-size:12px; color:var(--muted); margin-top:26px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">宁安</div>
+      <nav>
+        <a href="/">文章</a>
+        <a href="/tags/">标签</a>
+        <a href="/about/">关于</a>
+        <a href="/write/">写文章</a>
+      </nav>
+    </div>
+
+    <div class="card">
+      <h2>GitHub 令牌</h2>
+      <p class="desc">只保存在这台浏览器里，用来把文章提交到仓库。换电脑或清理浏览器后需要重填。</p>
+      <label class="field">
+        <input type="password" id="token" placeholder="ghp_..." autocomplete="off" />
+      </label>
+      <div class="actions">
+        <div class="status" id="token-status">需要拥有 repo 权限的经典令牌</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn small ghost" id="clear-token" type="button">清除</button>
+          <button class="btn small" id="save-token" type="button">保存令牌</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>个签</h2>
+      <p class="desc">显示在站名下面的一行字，留空就不显示。保存后 1–2 分钟生效。</p>
+      <label class="field">
+        <input type="text" id="signature" maxlength="60" value={initialSignature} placeholder="比如：在学通信，偶尔折腾。" />
+      </label>
+      <div class="actions">
+        <div class="status" id="signature-status"></div>
+        <button class="btn small" id="save-signature" type="button">保存个签</button>
+      </div>
+    </div>
+
+    <div class="foot">令牌和个签都属于设置，不需要每次写文章时再填。</div>
+  </div>
+
+  <script is:inline>
+    const OWNER = 'zhangningan937-gif'
+    const REPO = 'zhangningan937-gif.github.io'
+    const BRANCH = 'source'
+    const TOKEN_KEY = 'gh_token'
+
+    const $ = id => document.getElementById(id)
+    const setStatus = (el, text, kind) => { el.textContent = text; el.className = 'status' + (kind ? ' ' + kind : '') }
+    const tokenInput = $('token')
+    tokenInput.value = localStorage.getItem(TOKEN_KEY) || ''
+    const token = () => (localStorage.getItem(TOKEN_KEY) || '').trim()
+
+    async function gh(path, options = {}) {
+      const t = token()
+      if (!t) throw new Error('还没保存 GitHub 令牌')
+      const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}${path}`, {
+        ...options,
+        headers: {
+          'Authorization': 'Bearer ' + t,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json',
+          ...(options.headers || {}),
+        },
+      })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        throw new Error(`${res.status} ${body.message || res.statusText}`)
+      }
+      return res.status === 204 ? null : res.json()
+    }
+
+    function b64(str) {
+      const bytes = new TextEncoder().encode(str)
+      let binary = ''
+      const chunk = 0x8000
+      for (let i = 0; i < bytes.length; i += chunk) binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk))
+      return btoa(binary)
+    }
+
+    async function getFile(path) {
+      try {
+        const data = await gh(`/contents/${path}?ref=${BRANCH}`)
+        const bin = data.content ? atob(data.content.replace(/\n/g, '')) : ''
+        return { sha: data.sha, text: new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))) }
+      } catch (e) {
+        if (String(e.message).startsWith('404')) return null
+        throw e
+      }
+    }
+
+    $('save-token').addEventListener('click', () => {
+      const value = tokenInput.value.trim()
+      if (!value) { setStatus($('token-status'), '令牌不能为空', 'err'); return }
+      localStorage.setItem(TOKEN_KEY, value)
+      setStatus($('token-status'), '已保存（仅本机）', 'ok')
+    })
+    $('clear-token').addEventListener('click', () => {
+      localStorage.removeItem(TOKEN_KEY)
+      tokenInput.value = ''
+      setStatus($('token-status'), '已清除', 'ok')
+    })
+
+    $('save-signature').addEventListener('click', async () => {
+      const btn = $('save-signature')
+      btn.disabled = true
+      setStatus($('signature-status'), '提交中…')
+      try {
+        const text = $('signature').value.trim()
+        const path = 'src/data/site.json'
+        const existing = await getFile(path)
+        await gh(`/contents/${path}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            message: '更新个签',
+            content: b64(JSON.stringify({ signature: text }, null, 2) + '\n'),
+            branch: BRANCH,
+            ...(existing ? { sha: existing.sha } : {}),
+          }),
+        })
+        setStatus($('signature-status'), '已提交，1–2 分钟后生效', 'ok')
+      } catch (e) {
+        setStatus($('signature-status'), e.message, 'err')
+      } finally {
+        btn.disabled = false
+      }
+    })
+  </script>
+</body>
+</html>

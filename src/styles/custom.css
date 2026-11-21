@@ -1,0 +1,79 @@
+/* 京华老宋体（Web 字体，按 unicode-range 分片，按需加载） */
+@import url("https://cdn.jsdelivr.net/npm/@chinese-fonts/jhlst@3.0.0/dist/%E4%BA%AC%E8%8F%AF%E8%80%81%E5%AE%8B%E4%BD%93v2_002/result.css");
+
+/* 基础排版：中文用京华老宋体，西文用 EB Garamond */
+html {
+  font-family: "EB Garamond", "KingHwa_OldSong", "Noto Serif SC", Georgia, serif;
+  font-feature-settings: "liga" 1, "kern" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  letter-spacing: 0.01em;
+  line-height: 1.9;
+}
+
+/* 标题：西文用 Cormorant，中文落回京华老宋 */
+h1, h2, h3, h4, h5, h6,
+h1 a, h2 a, h3 a {
+  font-family: "Cormorant Garamond", "KingHwa_OldSong", "Noto Serif SC", Georgia, serif;
+  letter-spacing: 0.01em;
+  font-weight: 500;
+}
+
+/* 小号标签、日期用 EB Garamond 的小型大写感 */
+time, .font-time, [class*="font-time"] {
+  font-feature-settings: "smcp" 0, "kern" 1;
+  letter-spacing: 0.04em;
+}
+
+/* 正文段落稍微松散，接近书页 */
+.prose p, article p {
+  line-height: 1.95;
+}
+
+/* 引用：细线 + 小字 */
+blockquote {
+  font-family: "EB Garamond", "KingHwa_OldSong", serif;
+}
+
+/* 选中文字 */
+::selection {
+  background: #e9e2c8;
+  color: #222124;
+}
+
+/* 文章标题悬停：轻微的字距变化，不做花哨效果 */
+h3 a, h2 a {
+  transition: letter-spacing 0.35s ease, opacity 0.35s ease;
+}
+h3 a:hover, h2 a:hover {
+  letter-spacing: 0.04em;
+}
+
+/* 阅读进度条 */
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: #222124;
+  z-index: 9999;
+  transition: width 0.1s linear;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+/* 链接下划线更细 */
+.prose a, article a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+/* 移动端字距略收 */
+@media (max-width: 640px) {
+  body { letter-spacing: 0.005em; }
+  h1, h2, h3 { letter-spacing: 0; }
+}
