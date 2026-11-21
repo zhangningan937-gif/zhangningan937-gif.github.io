@@ -18,11 +18,10 @@ const postsByYear = await getPostsByYear(currentLang)
 
 <Layout>
   <!-- 写文章入口 -->
-  <div class="mb-7 flex items-center justify-between gap-4">
+  <div class="mb-7">
     <a href="/write/" class="inline-flex items-center gap-1.5 border border-[var(--line)] rounded-md px-3.5 py-1.5 text-3.5 c-secondary no-underline transition hover:(c-primary border-current)">
       <span class="text-4 leading-none">＋</span> 写文章
     </a>
-    <a href="/write/" class="text-3.2 c-secondary opacity-60 no-underline transition hover:opacity-100">设置</a>
   </div>
 
   <!-- Pinned Posts -->

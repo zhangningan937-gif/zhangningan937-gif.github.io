@@ -9,7 +9,7 @@
 
 两种方式，任选：
 
-1. **在线写**（推荐）：打开 <https://zhangningan937-gif.github.io/write/>，第一次先填 GitHub 令牌（只存在本机浏览器），然后像发论坛帖一样写标题、正文、标签，点「发布」。提交后 GitHub Actions 自动构建，1–2 分钟线上生效。个签也在这一页改。
+1. **在线写**（推荐）：打开 <https://zhangningan937-gif.github.io/write/>，第一次先填 GitHub 令牌（只存在本机浏览器），然后像发论坛帖一样写标题、正文、标签，点「发布」。提交后 GitHub Actions 自动构建，1–2 分钟线上生效。个签也在这一页改。首页顶部的「＋ 写文章」按钮直接进这里；保存过令牌后，每篇文章标题旁会出现「编辑 / 删除」。
 2. **本地写**：在 `src/content/posts/` 新建 `.md`，然后双击 `deploy.bat`。
 
 `.md` 格式：

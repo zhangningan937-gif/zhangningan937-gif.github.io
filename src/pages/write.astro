@@ -126,18 +126,21 @@ const initialSignature = siteData.signature ?? ''
     </div>
 
     <div class="card">
-      <h2>GitHub 令牌</h2>
-      <label class="field">
-        <span>只保存在这台浏览器的 localStorage，不会上传到任何服务器</span>
-        <input type="password" id="token" placeholder="ghp_..." autocomplete="off" />
-      </label>
-      <div class="actions">
-        <div class="status" id="token-status">需要拥有 repo 权限的经典令牌</div>
-        <div style="display:flex;gap:8px">
-          <button class="btn small ghost" id="clear-token" type="button">清除</button>
-          <button class="btn small" id="save-token" type="button">保存令牌</button>
+      <h2 style="margin-bottom:8px">GitHub 令牌</h2>
+      <details id="token-details" open>
+        <summary style="margin-bottom:12px">第一次使用需要填一次，存在本机浏览器</summary>
+        <label class="field">
+          <span>只保存在这台浏览器的 localStorage，不会上传到任何服务器</span>
+          <input type="password" id="token" placeholder="ghp_..." autocomplete="off" />
+        </label>
+        <div class="actions">
+          <div class="status" id="token-status">需要拥有 repo 权限的经典令牌</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn small ghost" id="clear-token" type="button">清除</button>
+            <button class="btn small" id="save-token" type="button">保存令牌</button>
+          </div>
         </div>
-      </div>
+      </details>
     </div>
 
     <div class="card">
@@ -225,6 +228,7 @@ const initialSignature = siteData.signature ?? ''
     const setStatus = (el, text, kind) => { el.textContent = text; el.className = 'status' + (kind ? ' ' + kind : '') }
     const tokenInput = $('token')
     tokenInput.value = localStorage.getItem(TOKEN_KEY) || ''
+    if (tokenInput.value) $('token-details').removeAttribute('open')
     const token = () => (localStorage.getItem(TOKEN_KEY) || '').trim()
 
     async function gh(path, options = {}) {
