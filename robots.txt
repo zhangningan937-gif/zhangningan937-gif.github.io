@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /~partytown/
+
+Sitemap: https://zhangningan937-gif.github.io/sitemap-index.xml

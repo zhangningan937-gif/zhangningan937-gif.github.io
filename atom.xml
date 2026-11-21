@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="/feeds/atom-style.xsl" type="text/xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://zhangningan937-gif.github.io/</id>
+    <title>宁安</title>
+    <updated>2026-11-21T13:00:09.613Z</updated>
+    <generator>Astro-Theme-Retypeset with Feed for Node.js</generator>
+    <author>
+        <name>宁安</name>
+        <uri>https://zhangningan937-gif.github.io/</uri>
+    </author>
+    <link rel="alternate" href="https://zhangningan937-gif.github.io/"/>
+    <link rel="self" href="https://zhangningan937-gif.github.io/atom.xml"/>
+    <subtitle>宁安的博客：学习、折腾、随笔。</subtitle>
+    <rights>Copyright © 2026 宁安</rights>
+</feed>

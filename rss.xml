@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="/feeds/rss-style.xsl" type="text/xsl"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>宁安</title>
+        <link>https://zhangningan937-gif.github.io/</link>
+        <description>宁安的博客：学习、折腾、随笔。</description>
+        <lastBuildDate>Sat, 21 Nov 2026 13:00:09 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Astro-Theme-Retypeset with Feed for Node.js</generator>
+        <language>zh</language>
+        <copyright>Copyright © 2026 宁安</copyright>
+        <atom:link href="https://zhangningan937-gif.github.io/rss.xml" rel="self" type="application/rss+xml"/>
+    </channel>
+</rss>
