@@ -108,9 +108,21 @@ const initialSignature = siteData.signature ?? ''
     <div class="topbar">
       <div class="brand">宁安</div>
       <nav>
-        <a href="/">← 回首页</a>
+        <a href="/">文章</a>
+        <a href="/tags/">标签</a>
+        <a href="/about/">关于</a>
         <a href="https://github.com/zhangningan937-gif/zhangningan937-gif.github.io/actions" target="_blank" rel="noopener">构建记录</a>
       </nav>
+    </div>
+
+    <div id="edit-banner" class="card" style="display:none;border-color:#e6d9a8;background:#fbf7e6">
+      <div class="actions" style="margin-top:0">
+        <div class="status" id="edit-status" style="color:#6b5a12"></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn small ghost" id="delete-post" type="button" style="color:#b23b3b;border-color:#e3c9c9">删除这篇</button>
+          <a class="btn small ghost" id="view-post" href="/" target="_blank" rel="noopener" style="text-decoration:none">查看</a>
+        </div>
+      </div>
     </div>
 
     <div class="card">
@@ -247,7 +259,9 @@ const initialSignature = siteData.signature ?? ''
     async function getFile(path) {
       try {
         const data = await gh(`/contents/${path}?ref=${BRANCH}`)
-        return { sha: data.sha, content: data.content ? atob(data.content.replace(/\n/g, '')) : '' }
+        const binary = data.content ? atob(data.content.replace(/\n/g, '')) : ''
+        const bytes = Uint8Array.from(binary, c => c.charCodeAt(0))
+        return { sha: data.sha, text: new TextDecoder().decode(bytes) }
       } catch (e) {
         if (String(e.message).startsWith('404')) return null
         throw e
@@ -457,7 +471,7 @@ const initialSignature = siteData.signature ?? ''
       const markdown = body.value.trim()
       if (!markdown) { setStatus($('post-status'), '正文还是空的', 'err'); return }
 
-      const slug = slugify($('post-slug').value) || slugify(title) || `post-${Date.now()}`
+      const slug = editing ? editing.slug : (slugify($('post-slug').value) || slugify(title) || `post-${Date.now()}`)
       const tags = $('post-tags').value.split(/[,，]/).map(s => s.trim()).filter(Boolean)
       const desc = $('post-desc').value.trim()
       const today = new Date().toISOString().slice(0, 10)
@@ -476,23 +490,88 @@ const initialSignature = siteData.signature ?? ''
       setStatus($('post-status'), '提交中…')
       try {
         const path = `src/content/posts/${slug}.md`
-        const existing = await getFile(path)
-        if (existing) throw new Error(`网址 ${slug} 已存在，换一个`)
-        await putFile(path, front + markdown + '\n', `新文章：${title}`)
+        let sha = editing ? editing.sha : null
+        if (!editing) {
+          const existing = await getFile(path)
+          if (existing) throw new Error(`网址 ${slug} 已存在，换一个`)
+        }
+        await putFile(path, front + markdown + '\n', editing ? `更新文章：${title}` : `新文章：${title}`, sha)
         localStorage.removeItem('post_draft')
-        setStatus($('post-status'), `已提交：${slug}。构建约 1–2 分钟。`, 'ok')
-        $('post-title').value = ''
-        $('post-slug').value = ''
-        $('post-tags').value = ''
-        $('post-desc').value = ''
-        body.value = ''
-        updateCount()
+        if (editing) {
+          setStatus($('post-status'), '已保存。构建约 1–2 分钟。', 'ok')
+        } else {
+          setStatus($('post-status'), `已提交：${slug}。构建约 1–2 分钟。`, 'ok')
+          $('post-title').value = ''
+          $('post-slug').value = ''
+          $('post-tags').value = ''
+          $('post-desc').value = ''
+          body.value = ''
+          updateCount()
+        }
       } catch (e) {
         setStatus($('post-status'), '发布失败：' + e.message, 'err')
       } finally {
         btn.disabled = false
       }
     })
+
+    // ===== 编辑模式 =====
+    let editing = null
+
+    async function deletePost(slug) {
+      if (!confirm('确定删除这篇？')) return
+      try {
+        const file = await getFile(`src/content/posts/${slug}.md`)
+        if (!file) return
+        await gh(`/contents/src/content/posts/${slug}.md`, {
+          method: 'DELETE',
+          body: JSON.stringify({ message: '删除文章：' + slug, sha: file.sha, branch: BRANCH }),
+        })
+        location.href = '/'
+      } catch (e) {
+        alert('删除失败：' + e.message)
+      }
+    }
+
+    async function loadForEdit() {
+      const slug = new URLSearchParams(location.search).get('edit')
+      if (!slug) return
+      $('edit-banner').style.display = ''
+      $('edit-status').textContent = '正在载入…'
+      if (!token()) {
+        $('edit-status').textContent = '先保存令牌，然后刷新本页'
+        return
+      }
+      try {
+        const file = await getFile(`src/content/posts/${slug}.md`)
+        if (!file) { $('edit-status').textContent = '没有找到这篇文章'; return }
+        const m = file.text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/)
+        const front = m ? m[1] : ''
+        const rest = m ? m[2] : file.text
+        const pick = (key) => {
+          const line = front.split(/\r?\n/).find(l => l.startsWith(key + ':'))
+          return line ? line.slice(key.length + 1).trim().replace(/^["']|["']$/g, '') : ''
+        }
+        $('post-title').value = pick('title')
+        $('post-desc').value = pick('description')
+        $('post-tags').value = pick('tags').replace(/^\[|\]$/g, '').split(',').map(s => s.trim()).filter(Boolean).join(', ')
+        body.value = rest.trim()
+        updateCount()
+        const slugInput = $('post-slug')
+        slugInput.value = slug
+        slugInput.readOnly = true
+        slugInput.style.background = '#f3f2ef'
+        editing = { slug, sha: file.sha }
+        $('publish').textContent = '保存修改'
+        $('edit-status').textContent = '正在编辑：' + slug
+        $('view-post').href = '/posts/' + encodeURIComponent(slug) + '/'
+        $('delete-post').addEventListener('click', () => deletePost(slug))
+      } catch (e) {
+        $('edit-status').textContent = '载入失败：' + e.message
+      }
+    }
+
+    loadForEdit()
   </script>
 </body>
 </html>

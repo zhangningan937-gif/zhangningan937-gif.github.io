@@ -17,6 +17,14 @@ const postsByYear = await getPostsByYear(currentLang)
 ---
 
 <Layout>
+  <!-- 写文章入口 -->
+  <div class="mb-7 flex items-center justify-between gap-4">
+    <a href="/write/" class="inline-flex items-center gap-1.5 border border-[var(--line)] rounded-md px-3.5 py-1.5 text-3.5 c-secondary no-underline transition hover:(c-primary border-current)">
+      <span class="text-4 leading-none">＋</span> 写文章
+    </a>
+    <a href="/write/" class="text-3.2 c-secondary opacity-60 no-underline transition hover:opacity-100">设置</a>
+  </div>
+
   <!-- Pinned Posts -->
   {pinnedPosts.length > 0 && (
     <section class="mb-7.5">
@@ -39,3 +47,64 @@ const postsByYear = await getPostsByYear(currentLang)
     </section>
   ))}
 </Layout>
+
+<script is:inline>
+  const GH_OWNER = 'zhangningan937-gif'
+  const GH_REPO = 'zhangningan937-gif.github.io'
+  const GH_BRANCH = 'source'
+
+  function attachPostAdmin() {
+    if (!localStorage.getItem('gh_token')) return
+    document.querySelectorAll('h3').forEach((h3) => {
+      if (h3.querySelector('.post-admin')) return
+      const a = h3.querySelector('a[href^="/posts/"]')
+      if (!a) return
+      const slug = decodeURIComponent(a.getAttribute('href').split('/').filter(Boolean).pop())
+
+      const box = document.createElement('span')
+      box.className = 'post-admin'
+      box.style.cssText = 'margin-left:.7em;font-size:12px;letter-spacing:0;vertical-align:middle'
+
+      const edit = document.createElement('a')
+      edit.href = '/write/?edit=' + encodeURIComponent(slug)
+      edit.textContent = '编辑'
+      edit.style.cssText = 'margin-right:.6em;opacity:.55;text-decoration:none'
+
+      const del = document.createElement('button')
+      del.type = 'button'
+      del.textContent = '删除'
+      del.style.cssText = 'border:0;background:none;padding:0;font:inherit;font-size:12px;cursor:pointer;color:#b23b3b;opacity:.7'
+      del.addEventListener('click', async (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        if (!confirm('删除《' + a.textContent.trim() + '》？')) return
+        const token = (localStorage.getItem('gh_token') || '').trim()
+        const api = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}`
+        const headers = {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json',
+        }
+        try {
+          const path = `src/content/posts/${slug}.md`
+          const info = await fetch(`${api}/contents/${path}?ref=${GH_BRANCH}`, { headers }).then(r => r.json())
+          const res = await fetch(`${api}/contents/${path}`, {
+            method: 'DELETE',
+            headers,
+            body: JSON.stringify({ message: `删除文章：${slug}`, sha: info.sha, branch: GH_BRANCH }),
+          })
+          if (!res.ok) throw new Error((await res.json()).message || res.status)
+          h3.closest('li').remove()
+        } catch (err) {
+          alert('删除失败：' + err.message)
+        }
+      })
+
+      box.append(edit, del)
+      h3.append(box)
+    })
+  }
+
+  document.addEventListener('astro:page-load', attachPostAdmin)
+  document.addEventListener('DOMContentLoaded', attachPostAdmin)
+</script>
