@@ -171,6 +171,10 @@ export const themeConfig: ThemeConfig = {
         url: 'https://github.com/zhangningan937-gif',
       },
       {
+        name: '写文章',
+        url: '/write',
+      },
+      {
         name: '学习台',
         url: 'https://zhangningan937-gif.github.io/myself/',
       },

@@ -7,7 +7,12 @@
 
 ## 写文章
 
-在 `src/content/posts/` 新建 `.md`，文件名就是网址：
+两种方式，任选：
+
+1. **在线写**（推荐）：打开 <https://zhangningan937-gif.github.io/write/>，第一次先填 GitHub 令牌（只存在本机浏览器），然后像发论坛帖一样写标题、正文、标签，点「发布」。提交后 GitHub Actions 自动构建，1–2 分钟线上生效。个签也在这一页改。
+2. **本地写**：在 `src/content/posts/` 新建 `.md`，然后双击 `deploy.bat`。
+
+`.md` 格式：
 
 ```markdown
 ---
@@ -32,8 +37,10 @@ tags: [标签]
 
 ## 改了哪些配置
 
-- `src/config.ts`：站名「宁安」、副标题、作者、URL、语言（仅 zh）、关闭评论/统计、页脚链接
-- `src/content/about/about-zh.md`：关于页
-- `src/pages/og/[...image].ts`：OG 字体改用系统 Noto Sans SC（`.og-fonts/`，不进仓库）
+- `src/config.ts`：站名「宁安」、副标题（读 `src/data/site.json` 的个签）、作者、URL、语言（仅 zh）、关闭评论/统计、页脚链接
+- `src/data/site.json`：个签，可在 `/write/` 页面修改
+- `src/pages/write.astro`：在线写作页（论坛式编辑器，浏览器直接提交到 `source` 分支）
+- `.github/workflows/deploy.yml`：推到 `source` 后自动构建并发布到 `main`
+- `src/pages/og/`：已移除，OG 图改用 `public/icons/og.png`
 
 主题文档见仓库 `README.md` 或 <https://retypeset.radishzz.cc/>。
