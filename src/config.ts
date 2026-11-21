@@ -1,12 +1,13 @@
 import type { ThemeConfig } from '@/types'
+import siteData from './data/site.json'
 
 export const themeConfig: ThemeConfig = {
   // SITE INFORMATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> START
   site: {
     // site title
     title: '宁安',
-    // site subtitle
-    subtitle: '学生，写笔记。',
+    // site subtitle (editable at /write/)
+    subtitle: siteData.signature,
     // site description
     description: '宁安的博客：学习、折腾、随笔。',
     // use i18n title/subtitle/description from src/i18n/ui.ts instead of static ones above
